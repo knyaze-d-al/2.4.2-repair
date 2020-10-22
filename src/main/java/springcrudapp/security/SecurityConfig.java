@@ -39,9 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
                 .antMatchers("/login").anonymous()
-                .antMatchers("/user").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+                .antMatchers("/user").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
                 .antMatchers("/admin", "/edit", "/delete").access("hasRole('ROLE_ADMIN')")
                 .and().formLogin()
                 .successHandler(successUserHandler);
@@ -49,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/index")
+                .logoutSuccessUrl("/login")
                 .and().csrf().disable();
     }
 
@@ -57,4 +56,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
     }
+
 }

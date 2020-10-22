@@ -15,7 +15,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "username")
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "age")
+    private Integer age;
+
+    @Column(name = "email")
     private String username;
 
     @Column(name = "password")
@@ -33,7 +42,10 @@ public class User implements UserDetails {
 
     }
 
-    public User (String username, String password, Set<Role> roles) {
+    public User (String firstName, String lastName, Integer age, String username, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -55,8 +67,40 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String printSet(Set<Role> roles) {
+        String str = new String();
+        for (Role role: roles) {
+            str = str + role.getName().substring(5) + " ";
+        }
+        return str;
     }
 
     public void setRoles(Set<Role> roles) {
