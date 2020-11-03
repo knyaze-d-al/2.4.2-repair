@@ -15,7 +15,7 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsServiceInterface {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -37,16 +37,19 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return user;
     }
 
+    @Override
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
 
         return userFromDb.orElse(new User());
     }
 
+    @Override
     public List<User> allUsers() {
         return userRepository.findAll();
     }
 
+    @Override
     public boolean saveUser(User user) {
         User userFromDb = userRepository.findByUsername(user.getUsername());
 
@@ -54,13 +57,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return false;
         }
 
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-        user.setPassword(user.getPassword());
         userRepository.save(user);
 
         return true;
     }
 
+    @Override
     public boolean deleteUser(Long userId) {
 
         if (userRepository.findById(userId).isPresent()) {
@@ -72,8 +74,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return false;
     }
 
+    @Override
     public void editUser(User user) {
 
-        entityManager.merge(entityManager.find(User.class, user.getId()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public Optional<Role> findRole(Long id) {
+        return Optional.empty();
     }
 }

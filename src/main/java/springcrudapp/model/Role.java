@@ -3,6 +3,9 @@ package springcrudapp.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -19,6 +22,8 @@ public class Role implements GrantedAuthority {
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
+
+
     public Role() {
 
     }
@@ -26,6 +31,21 @@ public class Role implements GrantedAuthority {
     public Role(long id) {
         this.id = id;
     }
+/*
+    public Role(String name, User user) {
+
+        if (name.contains("USER")) {
+            this.id = 1L;
+            this.name = "ROLE_USER";
+        }
+
+        if (name.contains("ADMIN")) {
+            this.id = 2L;
+            this.name = "ROLE_ADMIN";
+        }
+
+        user.setRoles(Collections.singleton(this));
+    }*/
 
     public Role(long id, String name) {
         this.id = id;

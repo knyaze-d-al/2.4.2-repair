@@ -4,8 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -33,6 +32,9 @@ public class User implements UserDetails {
     @Transient
     private String confirmPassword;
 
+    @Transient
+    String[] roleNames;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -42,13 +44,24 @@ public class User implements UserDetails {
 
     }
 
-    public User (String firstName, String lastName, Integer age, String username, String password, Set<Role> roles) {
+    public User (String firstName, String lastName, Integer age, String username, String password, String... roleNames) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+
+        for (String roleName: roleNames) {
+            this.roleNames = roleNames;
+
+            if (roleName.contains("USER")) {
+                this.roles.add(new Role(1L, "ROLE_USER"));
+            }
+            if (roleName.contains("ADMIN")) {
+                //Role role = new Role(2L, "ROLE_ADMIN");
+                this.roles.add(new Role(2L, "ROLE_ADMIN"));
+            }
+        }
     }
 
     public long getId() {
