@@ -98,7 +98,7 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="age" class="col-form-label">Age:</label>
-                                                                <input type="text" class="form-control" id="age" name="age" th:value="*{aUser.getAge()}"/>
+                                                                <input type="number" class="form-control" id="age" name="age" th:value="*{aUser.getAge()}"/>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="username" class="col-form-label">Email:</label>
@@ -107,6 +107,12 @@
                                                             <div class="form-group">
                                                                 <label for="password" class="col-form-label">Password:</label>
                                                                 <input type="password" class="form-control" id="password" name="password" th:value="*{aUser.getPassword()}"/>
+                                                            </div>
+                                                            <div class="form-group" id="selectRole">
+                                                                <select size="2" class="custom-select" name="roleIds" id="addRoles"  multiple>
+                                                                    <option  id="ADMIN" value="ADMIN">ADMIN</option>
+                                                                    <option id="USER"  value="USER">USER</option>
+                                                                </select>
                                                             </div>
                                                     </div>
                                                     <div class="modal-footer">
