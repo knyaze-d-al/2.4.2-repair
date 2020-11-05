@@ -29,40 +29,48 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Transient
-    private String confirmPassword;
-
-    @Transient
-    String[] roleNames;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
+    @Transient
+    private String confirmPassword;
+
+    @Transient
+    String roleNames;
+
+    //@Transient
+    //List<String> roleNamesList;
+
     public User() {
 
     }
 
-    public User (String firstName, String lastName, Integer age, String username, String password, String... roleNames) {
+    public User (String firstName, String lastName, Integer age, String username, String password, String roleNames) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.username = username;
         this.password = password;
+        this.roleNames = roleNames;
 
-        for (String roleName: roleNames) {
-            this.roleNames = roleNames;
+        this.roles = new HashSet<>();
+        //this.roleNamesList = new ArrayList<>();
+        //for (String roleName: roleNames) {
+          //  this.roleNames = roleNames;
 
-            if (roleName.contains("USER")) {
+            if (roleNames.contains("USER")) {
                 this.roles.add(new Role(1L, "ROLE_USER"));
+                //this.roleNamesList.add("USER");
             }
-            if (roleName.contains("ADMIN")) {
+            if (roleNames.contains("ADMIN")) {
                 //Role role = new Role(2L, "ROLE_ADMIN");
                 this.roles.add(new Role(2L, "ROLE_ADMIN"));
+                //this.roleNamesList.add("ADMIN");
             }
-        }
     }
+
 
     public long getId() {
         return id;

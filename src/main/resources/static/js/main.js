@@ -13,7 +13,9 @@ function fillTable() {
             response.json().then(
                 data => {
                     let temp = "";
-                    data.forEach((aUser) => {
+                    let rls = "";
+                    data.forEach(aUser => {
+                        aUser.roles.length > 1 ? rls = "ADMIN USER" : rls = "USER";
                         temp += "<tr>";
                         temp += "<td>" + aUser.id + "</td>";
                         temp += "<td>" + aUser.firstName + "</td>";
@@ -21,11 +23,13 @@ function fillTable() {
                         temp += "<td>" + aUser.age + "</td>";
                         temp += "<td>" + aUser.username + "</td>";
                         temp += "<td>" + aUser.password + "</td>";
-                        temp += "<td>";
-                        aUser.roles.forEach((item) => {
-                            temp += item.role + " ";
-                        });
-                        temp += "</td>";
+                        temp += "<td>" + rls + "</td>";
+                        //aUser.roleNamesList[0];
+                            //aUser.roles[0].name + "</td>";
+                       // aUser.roles.forEach((item) => {
+                         //   temp += item + " ";
+                        //});
+                        //temp += "</td>";
                         temp += "<td>" +
                             "<a class='btn btn-info' role='button' onclick='fillEditModal(" + aUser.id + ")'  data-toggle='modal' data-target='#editModal'>Edit</a>" +
                             "</td>";
@@ -77,7 +81,7 @@ $("#buttonSubmitNew").on('click', (event) => {
         age: $("#ageNewUser").val(),
         username: $("#emailNewUser").val(),
         password: $("#passwordNewUser").val(),
-        roleNames: $("#rolesNewUser").val()
+        roleNames: $("#rolesNewUser option:selected").val()
     };
 
     $.ajax({
@@ -102,7 +106,7 @@ $("#buttonSubmitEdit").on('click', (event) => {
         age: $("#age").val(),
         username: $("#username").val(),
         password: $("#password").val(),
-        roleNames: $("#roles").val()
+        roleNames: $("#rolesEditUser option:selected").val()
     };
 
     $.ajax({
